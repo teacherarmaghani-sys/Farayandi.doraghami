@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قطار دو ایستگاهی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;font-family:Vazirmatn,Tahoma,sans-serif;color:#fff;overflow-x:hidden;
+background:radial-gradient(circle at 20% 15%,#fff9 0 2px,#0000 3px),radial-gradient(circle at 70% 8%,#fff9 0 2px,#0000 3px),radial-gradient(circle at 88% 28%,#fff8 0 2px,#0000 3px),linear-gradient(#1b1464 0%,#5b2a8c 50%,#ff8a5c 100%) fixed}
+.scr{display:none;max-width:560px;margin:0 auto;padding:12px 14px 60px}.scr.on{display:block}
+h1{font-size:44px;margin:14px 0 6px;text-align:center;color:#ffe066;text-shadow:0 1px 0 #e0a800,0 2px 0 #c98f00,0 3px 0 #b07800,0 4px 0 #8f6000,0 10px 18px #0009}
+.plaque{margin:16px auto;width:fit-content;max-width:100%;padding:10px 22px;text-align:center;font-weight:900;font-size:19px;color:#5a3300;border:4px solid #8a5a00;border-radius:16px;
+background:linear-gradient(145deg,#fff0a8,#e0a21c 50%,#fff2b0);transform:perspective(500px) rotateX(14deg);
+box-shadow:0 1px 0 #b57a00,0 2px 0 #a86f00,0 3px 0 #9c6400,0 4px 0 #8a5a00,0 14px 24px #0008,inset 0 2px 5px #fffa}
+.slab{background:linear-gradient(160deg,#fff,#dfe8ff);color:#1b1464;border-radius:22px;padding:14px;margin:12px 0;text-align:center;
+box-shadow:0 6px 0 #9fb0e8,0 16px 26px #0007;transform:perspective(900px) rotateX(3deg)}
+input{width:100%;font:inherit;font-size:22px;text-align:center;padding:12px;border-radius:14px;border:3px solid #9fb0e8;margin:10px 0;color:#1b1464}
+.btn{font:inherit;font-weight:900;font-size:20px;color:#fff;border:0;border-radius:16px;padding:12px 26px;cursor:pointer;
+background:linear-gradient(#ffb347,#ff7a00);box-shadow:0 6px 0 #b34f00,0 12px 18px #0006;transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b34f00}
+.btn.g{background:linear-gradient(#5be37d,#16a34a);box-shadow:0 6px 0 #0d6b2e,0 12px 18px #0006}
+.hud{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.chip{background:#0005;border:2px solid #fff4;border-radius:14px;padding:6px 12px;box-shadow:0 4px 0 #0004}
+.pl b{font-size:18px;color:#ffe066;display:inline-block}.cur b{font-size:22px}.pl:not(.cur){opacity:.6}.pop{animation:pop .5s}
+@keyframes pop{50%{transform:scale(1.5)}}
+.rail{position:relative;height:150px;direction:ltr;margin-top:6px}
+.ground{position:absolute;left:0;right:0;bottom:0;height:34px;background:linear-gradient(#6b4a2f,#3a2616);border-radius:10px;transform:perspective(300px) rotateX(35deg);box-shadow:0 10px 16px #0007}
+.ground:before{content:"";position:absolute;left:0;right:0;top:8px;height:5px;background:#cfd8dc;box-shadow:0 12px 0 #cfd8dc}
+.train{position:absolute;bottom:14px;left:0;width:44%;transition:left 1.3s cubic-bezier(.5,0,.3,1);filter:drop-shadow(0 8px 6px #0008)}
+.train svg{width:100%;display:block}
+.st{position:absolute;bottom:44px;transform:translateX(-50%);text-align:center;font-size:12px;font-weight:900;line-height:1.3}
+.st span{display:block;color:#3b2a00;padding:3px 8px;border-radius:8px;background:linear-gradient(#fff0a8,#e0a21c);box-shadow:0 3px 0 #8a5a00}
+.st i{display:block;width:5px;height:34px;margin:0 auto;background:#ddd;box-shadow:0 0 0 1px #0004}
+.puff{animation:puff 2s infinite}.puff:nth-child(2){animation-delay:1s}
+@keyframes puff{from{opacity:.8;transform:translate(0,0) scale(.6)}to{opacity:0;transform:translate(14px,-34px) scale(1.5)}}
+.col{direction:ltr;display:inline-block;width:210px;font-size:56px;font-weight:900;line-height:1.15}
+.r{display:flex;justify-content:space-between}.sg{color:#e11d48}
+.col hr{border:0;border-top:5px solid #1b1464;margin:4px 0;border-radius:3px}
+.tn{color:#f97316}.un{color:#0891b2}
+.step{direction:ltr;display:flex;align-items:center;justify-content:center;gap:10px;font-size:30px;font-weight:900;margin:10px 0;padding:6px;border-radius:14px;opacity:.45}
+.step.act{opacity:1;background:#fff;box-shadow:0 0 0 3px #f97316}.step.ok{opacity:1}
+.box{min-width:84px;height:54px;line-height:48px;border:3px dashed #1b1464;border-radius:12px;background:#eef2ff}
+.ok .box{border:3px solid #16a34a;background:#dcfce7;color:#15803d}
+.bad{animation:shake .4s;border-color:#dc2626!important;background:#fee2e2!important}
+@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+#msg{min-height:52px;font-size:17px;font-weight:700;margin:6px 0;line-height:1.7}
+.pad{direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:330px;margin:8px auto}
+.pad button{font:inherit;font-size:28px;font-weight:900;height:58px;border:0;border-radius:14px;color:#1b1464;cursor:pointer;
+background:linear-gradient(#fff,#c7d2fe);box-shadow:0 5px 0 #6f7fd1,0 9px 12px #0005}
+.pad button:active{transform:translateY(4px);box-shadow:0 1px 0 #6f7fd1}
+.pad .ok{background:linear-gradient(#5be37d,#16a34a);color:#fff;box-shadow:0 5px 0 #0d6b2e,0 9px 12px #0005}
+.pad .del{background:linear-gradient(#fda4af,#e11d48);color:#fff;box-shadow:0 5px 0 #881337,0 9px 12px #0005}
+.pr{position:fixed;left:50%;top:38%;z-index:60;font-size:48px;font-weight:900;color:#ffe066;white-space:nowrap;pointer-events:none;
+text-shadow:0 3px 0 #c98f00,0 8px 16px #000a;animation:prz 1.5s forwards}
+@keyframes prz{0%{transform:translate(-50%,0) scale(.3);opacity:0}25%{transform:translate(-50%,0) scale(1.2);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-70px) scale(1);opacity:0}}
+.cf{position:fixed;top:-20px;width:10px;height:14px;z-index:55;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.stars{font-size:46px;letter-spacing:6px;text-shadow:0 4px 8px #0006}
+.small{font-size:14px;line-height:1.9;color:#1b1464}
+.modes{display:flex;gap:10px;margin:10px 0}.mode{flex:1;font:inherit;font-weight:900;font-size:18px;padding:10px;border-radius:14px;border:3px solid #9fb0e8;background:#fff;color:#1b1464;cursor:pointer}
+.mode.sel{background:linear-gradient(#ffb347,#ff7a00);color:#fff;border-color:#b34f00;box-shadow:0 4px 0 #b34f00}
+.pr.turn{font-size:30px;color:#fff;top:30%;background:#000b;border:3px solid #ffe066;border-radius:18px;padding:10px 20px;white-space:normal;text-align:center;width:max-content;max-width:88vw}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style></head><body>
+
+<section class="scr on" id="s0">
+ <h1>🚂 قطار دو ایستگاهی</h1>
+ <div class="rail" id="r0" style="height:130px"><div class="ground"></div><div class="train" style="left:28%"></div></div>
+ <div class="plaque">آموزگار: مرضیه ارمغانی</div>
+ <div class="slab">
+  <div style="font-weight:900;font-size:19px">چند نفره بازی می‌کنید؟</div>
+  <div class="modes"><button class="mode sel" id="m1">👤 یک‌نفره</button><button class="mode" id="m2">👥 دونفره</button></div>
+  <input id="nm" maxlength="24" placeholder="نام دانش‌آموز" autocomplete="off">
+  <input id="nm2" maxlength="24" placeholder="نام بازیکن دوم" autocomplete="off" style="display:none">
+  <div class="small">قطار باید از دو ایستگاه رد شود:<br>ایستگاه دهگان ← ایستگاه یکان<br>جواب درست: ۵+ امتیاز · اشتباه: ۲− · کمک: ۱−</div>
+  <button class="btn" id="go" style="margin-top:12px">شروع بازی 🚉</button>
+ </div>
+</section>
+
+<section class="scr" id="mid"><h1 id="mt"></h1><div class="slab" id="mb"></div></section>
+
+<section class="scr" id="play">
+ <div class="hud"><span class="chip" id="hn"></span><span class="chip" id="hs"></span><span class="chip" id="sch"></span></div>
+ <div class="rail" id="r1">
+  <div class="st" style="left:70%"><span>ایستگاه دهگان</span><i></i></div>
+  <div class="st" style="left:96%"><span>ایستگاه یکان</span><i></i></div>
+  <div class="ground"></div><div class="train" id="tr"></div>
+ </div>
+ <div class="slab">
+  <div class="col"><div class="r"><span></span><span id="a"></span></div><div class="r"><span class="sg" id="sg"></span><span id="b"></span></div><hr><div class="r"><span></span><span id="fin">؟؟</span></div></div>
+  <div class="step" id="L1"><span id="e1"></span><div class="box" id="b1"></div></div>
+  <div class="step" id="L2"><span id="e2"></span><div class="box" id="b2"></div></div>
+  <div id="msg"></div>
+  <button class="btn g" id="nx" style="display:none">بعدی ⏭</button>
+  <button class="btn" id="hp" style="font-size:15px;padding:8px 16px">💡 کمک</button>
+ </div>
+ <div class="pad" id="pad"></div>
+</section>
+
+<section class="scr" id="end"><h1>🏆 آفرین!</h1><div class="slab" id="eb"></div><div class="plaque">آموزگار: مرضیه ارمغانی</div></section>
+
+<script>
+const $=s=>document.querySelector(s),fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const TR=`<svg viewBox="0 0 290 125"><defs>
+<linearGradient id="gR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a8f"/><stop offset=".5" stop-color="#e53935"/><stop offset="1" stop-color="#8e1b17"/></linearGradient>
+<linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc4ff"/><stop offset=".5" stop-color="#2979ff"/><stop offset="1" stop-color="#123a8f"/></linearGradient>
+<radialGradient id="gW" cx=".4" cy=".35"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#9aa7b0"/><stop offset="1" stop-color="#37474f"/></radialGradient></defs>
+<g class="puff"><circle cx="212" cy="18" r="9" fill="#fff"/></g><g class="puff"><circle cx="212" cy="18" r="9" fill="#fff"/></g>
+<rect x="4" y="30" width="116" height="62" rx="10" fill="url(#gB)"/><rect x="8" y="33" width="108" height="9" rx="4" fill="#fff5"/>
+<rect x="20" y="44" width="84" height="38" rx="8" fill="#fff" stroke="#123a8f" stroke-width="3"/>
+<text class="tnum" x="62" y="73" text-anchor="middle" font-size="30" font-weight="900" fill="#1b1464" font-family="Vazirmatn,Tahoma">۷۸</text>
+<rect x="120" y="68" width="22" height="7" fill="#333"/>
+<rect x="140" y="44" width="100" height="48" rx="14" fill="url(#gR)"/><rect x="146" y="47" width="88" height="8" rx="4" fill="#fff5"/>
+<rect x="202" y="22" width="20" height="26" rx="3" fill="#333"/><rect x="198" y="18" width="28" height="8" rx="3" fill="#555"/>
+<rect x="140" y="24" width="50" height="68" rx="8" fill="url(#gR)"/><rect x="150" y="34" width="28" height="22" rx="5" fill="#bfe3ff" stroke="#fff" stroke-width="2"/>
+<circle cx="244" cy="66" r="9" fill="#ffe066" stroke="#c98f00" stroke-width="2"/><polygon points="240,94 270,94 240,78" fill="#555"/>
+<g fill="url(#gW)" stroke="#222" stroke-width="3"><circle cx="38" cy="100" r="15"/><circle cx="92" cy="100" r="15"/><circle cx="160" cy="100" r="15"/><circle cx="214" cy="100" r="15"/></g>
+<g fill="#222"><circle cx="38" cy="100" r="4"/><circle cx="92" cy="100" r="4"/><circle cx="160" cy="100" r="4"/><circle cx="214" cy="100" r="4"/></g></svg>`;
+document.querySelector('#r0 .train').innerHTML=TR;$('#tr').innerHTML=TR;
+const tnum=$('#tr .tnum');
+let AC;function snd(f,d=.15,t='sine',v=.15,at=0){try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime+at);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+at+d);o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+at);o.stop(AC.currentTime+at+d)}catch(e){}}
+const good=()=>[523,659,784,1047].forEach((f,i)=>snd(f,.2,'triangle',.2,i*.1)),bad=()=>snd(160,.3,'sawtooth',.12),horn=()=>{snd(330,.4,'square',.07);snd(415,.4,'square',.07)};
+function conf(){for(let i=0;i<60;i++){const d=document.createElement('div');d.className='cf';d.style.left=Math.random()*100+'%';d.style.background=`hsl(${R(0,360)},90%,60%)`;d.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3400)}}
+function praise(t,c=''){const d=document.createElement('div');d.className='pr '+c;d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
+const show=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==id));scrollTo(0,0)};
+const P=['آفرین! 🌟','عالی بود! 🎉','تو ستاره‌ای! ⭐','فوق‌العاده‌ای! 🚀','دمت گرم قهرمان! 🏅','احسنت! 👏'];
+const STG=[['add'],['sub'],['carry'],['add','sub','carry','borrow']],NAMES=['جمع ساده','تفریق ساده','جمع با عبور از دهگان','ترکیبی: جمع و تفریق'],N=5;
+function gen(t){let a,b;for(let i=0;i<800;i++){a=R(11,98);b=R(11,89);const ta=a/10|0,tb=b/10|0,ua=a%10,ub=b%10;if(!ub||!tb)continue;
+if((t=='add'&&ua+ub<=9&&a+b<=99)||(t=='carry'&&ua+ub>=10&&a+b<=99)||(t=='sub'&&ta>tb&&ua>=ub)||(t=='borrow'&&ta>tb&&ua<ub))break}
+return{a,b,op:(t=='add'||t=='carry')?'+':'−'}}
+let np=1,pl=[],pi=0,mode=1,stage=0,q=0,probs,p,step,cur,mis,helped,done;
+function renderSc(){$('#sch').innerHTML=pl.map((x,i)=>`<span class="pl${i==pi?' cur':''}">${np>1?x.n+': ':'⭐ '}<b>${fa(x.s)}</b></span>`).join(' | ')}
+function setMode(m){mode=m;$('#m1').classList.toggle('sel',m==1);$('#m2').classList.toggle('sel',m==2);$('#nm2').style.display=m==2?'':'none';$('#nm').placeholder=m==2?'نام بازیکن اول':'نام دانش‌آموز'}
+$('#m1').onclick=()=>setMode(1);$('#m2').onclick=()=>setMode(2);
+$('#go').onclick=()=>{const ns=[$('#nm').value.trim()];if(mode==2)ns.push($('#nm2').value.trim());const bi=ns.findIndex(x=>!x);if(bi>=0){const el=bi?$('#nm2'):$('#nm');el.classList.add('bad');setTimeout(()=>el.classList.remove('bad'),450);return}np=mode;pl=ns.map(n=>({n,s:0,st:0}));stage=0;horn();intro()};
+function intro(){show('mid');$('#mt').textContent='مرحله '+fa(stage+1);$('#mb').innerHTML=`<div style="font-size:24px;font-weight:900">${NAMES[stage]}</div><div class="small">${np>1?'هر بازیکن '+fa(N)+' مسئله دارد و نوبتی بازی می‌کنید.':fa(N)+' مسئله داری.'} اول عدد بالا را با دهگان عدد پایین حساب کن، بعد یکان را اضافه یا کم کن.</div><button class="btn" id="st">برویم! 🚂</button>`;$('#st').onclick=()=>{probs=Array.from({length:N*np},()=>gen(STG[stage][R(0,STG[stage].length-1)]));q=0;pl.forEach(x=>x.st=0);show('play');load()}}
+function load(){p=probs[q];const t=(p.b/10|0)*10,u=p.b%10;p.t=t;p.u=u;p.s1=p.op=='+'?p.a+t:p.a-t;p.s2=p.op=='+'?p.s1+u:p.s1-u;
+pi=q%np;step=1;cur='';mis=0;helped=false;done=false;
+$('#hn').textContent=np>1?'🎯 نوبت: '+pl[pi].n:pl[0].n;$('#hs').textContent=`مرحله ${fa(stage+1)} · سؤال ${fa((q/np|0)+1)}/${fa(N)}`;
+$('#a').textContent=fa(p.a);$('#sg').textContent=p.op;$('#b').innerHTML=`<span class="tn">${fa(t/10)}</span><span class="un">${fa(u)}</span>`;$('#fin').textContent='؟؟';
+$('#e1').textContent=`${fa(p.a)} ${p.op} ${fa(t)} =`;$('#e2').textContent=`؟؟ ${p.op} ${fa(u)} =`;
+$('#b1').textContent='';$('#b2').textContent='';$('#L1').className='step act';$('#L2').className='step';
+$('#nx').style.display='none';$('#hp').style.display='';$('#msg').textContent='مرحلهٔ ۱: عدد بالا را با دهگان عدد پایین حساب کن.';
+tnum.textContent=fa(p.a);$('#tr').style.left='0%';renderSc();if(np>1){praise('🚂 نوبت '+pl[pi].n,'turn');snd(392,.15,'triangle',.15);snd(523,.2,'triangle',.15,.15)}}
+const pad=$('#pad');[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].forEach(k=>{const b=document.createElement('button');b.textContent=typeof k=='number'?fa(k):k;if(k=='✓')b.className='ok';if(k=='⌫')b.className='del';b.onclick=()=>key(k);pad.appendChild(b)});
+document.addEventListener('keydown',e=>{if(!$('#play').classList.contains('on'))return;if(/^\d$/.test(e.key))key(+e.key);else if(e.key=='Backspace')key('⌫');else if(e.key=='Enter')done?$('#nx').click():key('✓')});
+function box(){return step==1?$('#b1'):$('#b2')}
+function key(k){if(done)return;if(k=='⌫')cur=cur.slice(0,-1);else if(k=='✓')return check();else if(cur.length<2)cur+=k;box().textContent=fa(cur);snd(500,.05,'sine',.08)}
+function addScore(n){const x=pl[pi];x.s=Math.max(0,x.s+n);x.st=Math.max(0,x.st+n);renderSc();document.querySelector('.cur b').classList.add('pop')}
+function check(){if(!cur)return;const tg=step==1?p.s1:p.s2,bx=box();
+if(+cur==tg){addScore(mis?2:5);good();if(step==1){$('#L1').className='step ok';$('#L2').className='step act';$('#e2').textContent=`${fa(p.s1)} ${p.op} ${fa(p.u)} =`;
+tnum.textContent=fa(p.s1);$('#tr').style.left='26%';praise('درسته! 🚉');$('#msg').textContent=`قطار به ایستگاه دهگان رسید! حالا ${fa(p.s1)} را با یکان (${fa(p.u)}) حساب کن.`;step=2;cur='';mis=0}
+else{$('#L2').className='step ok';$('#fin').textContent=fa(p.s2);tnum.textContent=fa(p.s2);$('#tr').style.left='54%';done=true;conf();snd(0,0);praise(P[R(0,P.length-1)]);
+$('#msg').textContent=`قطار به مقصد رسید! جواب: ${fa(p.s2)} 🎉`;$('#nx').style.display='';$('#hp').style.display='none'}}
+else{mis++;addScore(-2);bad();bx.classList.add('bad');setTimeout(()=>bx.classList.remove('bad'),450);cur='';bx.textContent='';
+$('#msg').textContent=step==1?`دوباره امتحان کن 💪 ${fa(p.a)} را با ${fa(p.t)} ${p.op=='+'?'جمع':'تفریق'} کن.`:`دوباره امتحان کن 💪 ${fa(p.s1)} را با ${fa(p.u)} ${p.op=='+'?'جمع':'تفریق'} کن.`}}
+$('#hp').onclick=()=>{if(done)return;if(!helped){helped=true;addScore(-1)}const n=step==1?p.t/10:p.u,from=step==1?p.a:p.s1,d=step==1?10:1,sq=[];let x=from;for(let i=0;i<n;i++){x+=p.op=='+'?d:-d;sq.push(fa(x))}
+$('#msg').textContent=`از ${fa(from)} ${fa(n)} پرش ${step==1?'ده‌تایی':'یک‌تایی'} ${p.op=='+'?'جلو':'عقب'} برو: ${sq.join(' ← ')}`};
+$('#nx').onclick=()=>{q++;if(q<N)load();else stageEnd()};
+const stars=(s,m)=>{const r=s/m;return r>=.85?3:r>=.6?2:1},starTxt=n=>'⭐'.repeat(n)+'☆'.repeat(3-n);
+function stageEnd(){conf();good();if(stage<3){show('mid');$('#mt').textContent='ایستگاه تمام شد!';
+$('#mb').innerHTML=`${pl.map(x=>`<div class="stars">${starTxt(stars(x.st,N*10))}</div><div style="font-size:22px;font-weight:900">${x.n}، امتیاز این مرحله: ${fa(x.st)} از ${fa(N*10)}</div><div class="small">امتیاز کل: ${fa(x.s)}</div>`).join('<hr>')}<button class="btn g" id="st">مرحلهٔ بعد 🚂</button>`;
+$('#st').onclick=()=>{stage++;intro()}}
+else{show('end');const M=N*40,tp=Math.max(...pl.map(x=>x.s)),ws=pl.filter(x=>x.s==tp),hd=np>1?(ws.length>1?'🤝 مساوی شدید! هر دو قهرمان هستید':'🏆 برنده: '+ws[0].n+'!'):pl[0].n+' عزیز، تو رانندهٔ ماهر قطار هستی! 🚂';
+$('#eb').innerHTML=`<div style="font-size:24px;font-weight:900">${hd}</div>`+pl.map(x=>`<div class="stars">${starTxt(stars(x.s,M))}</div><div style="font-size:22px;font-weight:900">${np>1?x.n+': ':''}<span style="color:#e11d48">${fa(x.s)}</span> از ${fa(M)}</div>`).join('')+`<button class="btn" id="rs" style="margin-top:10px">بازی دوباره 🔁</button>`;
+$('#rs').onclick=()=>show('s0')}}
+</script></body></html>
